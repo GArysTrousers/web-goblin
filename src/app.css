@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.flex-col {
+  display: flex;
+}
+
+.flex-row {
+  display: flex;
+}
+
+html {
+  @apply bg-slate-900 text-slate-200;
+}
+
+h1 {
+  @apply text-3xl mb-4;
+}
+h2 {
+  @apply text-2xl mb-3;
+}
+h3 {
+  @apply text-xl mb-1;
+}
+
+input {
+  @apply bg-violet-800 rounded-lg px-3 py-1 w-full;
+}
+
+input:focus {
+  outline: none;
+}
+
+.card {
+  @apply bg-violet-900;
+}
+
+.btn {
+  @apply bg-violet-800 rounded-lg px-3 py-1 text-center;
+}
+
+.btn:hover {
+  filter: brightness(1.1);
+}
+
+.btn:active {
+  filter: brightness(0.9);
+}
+
+.btn-icon {
+  @apply p-1;
+}
+
+.icon {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+.bg-trans {
+  @apply bg-transparent;
+}
