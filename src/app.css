@@ -39,7 +39,7 @@ input:focus {
 }
 
 .btn {
-  @apply bg-violet-800 rounded-lg px-3 py-1 text-center;
+  @apply bg-violet-800 rounded-lg px-3 py-1 text-center flex flex-row align-middle gap-1;
 }
 
 .btn:hover {

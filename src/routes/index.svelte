@@ -11,7 +11,15 @@
 <main>
   {#each servers as server}
     <div class="card flex-col max-w-xl m-5 p-5 rounded-3xl gap-2">
-      <h1>Server</h1>
+      <div class="flex-row justify-between">
+        <h1>Server</h1>
+        <div class="flex-row mb-auto">
+          <button class="btn">
+            <div class="icon">save</div>
+            Save
+          </button>
+        </div>
+      </div>
       <div class="grid grid-cols-3 gap-2">
         <div>Name</div>
         <div class="col-span-2"><input bind:value={server.name} /></div>

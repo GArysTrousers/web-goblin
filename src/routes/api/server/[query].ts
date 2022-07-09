@@ -1,25 +1,33 @@
 import { error, success } from "$lib/fetch";
-import type { Order } from "$lib/types";
-import * as db from "$lib/jsdb";
+// import * as db from "$lib/jsdb";
+import { shells } from "$lib/shells";
 
+/** @type {import('@sveltejs/kit').RequestHandler} */
 export async function post({ request, params }) {
 
   let { query } = params;
-  let data = await request.json()
+  let data:any = await request.json()
 
 
   try {
     if (query == 'get_all') {
-      let orders = await db.getAll('orders');
-      return { body: success(orders) }
+
     }
-    else if (query == 'set') {
-      let res = await db.set('orders', data.order);
-      return { body: success() }
+    else if (query == 'send_command') {
+      let {id, text} = data;
+      if (id in shells) {
+        shells[id].shell.write(text);
+        return { body: success() }
+      }
+      return { body: error(`No Server: ${id}`) }
     }
-    else if (query == 'remove_archived') {
-      let res = await db.remove('orders', (x: Order) => (x.archived == true))
-      return { body: success() }
+    else if (query == 'get_output') {
+      let {id} = data;
+      
+      if (id in shells) {
+        return { body: success(shells[id].output) }
+      }
+      return { body: error(`No Server: ${id}`) }
     }
   }
 
