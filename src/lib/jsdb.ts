@@ -1,9 +1,9 @@
 import { readFileSync, writeFileSync } from "fs";
 
 
-let dbPath = "C:\\Users\\benml\\OneDrive\\source\\Web\\laptops\\data.json";
+let dbPath = "C:\\repos\\web-goblin-data\\data.json";
 let tables = [
-  "orders"
+  "servers"
 ]
 let data: object = initDB(dbPath, tables)
 
@@ -30,7 +30,7 @@ function initDB(filePath: string, tables: Array<string>): object {
   try {
     db = load(filePath)
   }
-  catch (err) {
+  catch (err:any) {
     if (err.code === 'ENOENT') {
       console.log('DB file not found!');
     }

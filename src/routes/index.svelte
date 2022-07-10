@@ -1,48 +1,53 @@
 <script lang="ts">
-  let servers = [
-    {
-      name: "Test",
-      dir: "C:\\repos\\test",
-      startCommands: ["set PORT=3001", "node index.js"],
-    },
-  ];
+  import { api } from "$lib/fetch";
+  import { newServer, type Server, type ServerDescription } from "$lib/types";
+
+  import { onMount } from "svelte";
+
+  let servers: Server[] = [];
+
+  onMount(async () => {
+    let res = await api("/api/server/get_servers");
+    if (res.ok) {
+      servers = res.data.map((i) => newServer(i));
+      let statuses = await api("/api/server/get_server_statuses", {
+        servers: res.data.map((i) => i.id),
+      });
+      servers = servers.map(server => {
+        return {
+          ...server,
+          status: statuses.data[server.desc.id]
+        }
+      })
+    }
+  });
+
+  function getStatus(id: string) {
+    return "Hey";
+  }
 </script>
 
 <main>
   {#each servers as server}
     <div class="card flex-col max-w-xl m-5 p-5 rounded-3xl gap-2">
       <div class="flex-row justify-between">
-        <h1>Server</h1>
-        <div class="flex-row mb-auto">
+        <div class="text-xl">
+          {server.desc.id} - {server.status}
+        </div>
+        <div class="flex-row my-auto gap-1">
           <button class="btn">
-            <div class="icon">save</div>
-            Save
+            Start
+            <div class="icon">play_arrow</div>
           </button>
+          <button class="btn">
+            Stop
+            <div class="icon">stop</div>
+          </button>
+          <a href={`/server/${server.desc.id}`} class="btn">
+            Go
+            <div class="icon">arrow_forward</div>
+          </a>
         </div>
-      </div>
-      <div class="grid grid-cols-3 gap-2">
-        <div>Name</div>
-        <div class="col-span-2"><input bind:value={server.name} /></div>
-        <div>Directory</div>
-        <div class="col-span-2"><input bind:value={server.dir} /></div>
-      </div>
-      <div class="my-2 flex-row justify-between align-middle">
-        <h3>Start Commands</h3>
-        <div>
-          <button
-            class="btn btn-icon flex-row align-middle"
-            on:click={() => {
-              server.startCommands = [...server.startCommands, ""];
-            }}><span class="icon">add</span>
-            </button
-          >
-        </div>
-      </div>
-      
-      <div class="flex-col gap-2">
-        {#each server.startCommands as com}
-          <div class="flex-row gap-1"><input bind:value={com} /><button class="btn btn-icon icon bg-trans">close</button></div>
-        {/each}
       </div>
     </div>
   {/each}

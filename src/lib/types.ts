@@ -1,21 +1,27 @@
-import { v4 as uuid } from "uuid";
 
-export interface Order {
+export interface ServerDescription {
   id: string;
-  name: string;
-  model: string;
-  serial: string;
-  progress: number;
-  archived: boolean;
+  dir: string;
+  startCommands: string[];
+
 }
 
-export function newOrder(name:string, model:string, serial:string): Order {
+export function newServerDescription(id: string, dir: string, startCommands: string[]): ServerDescription {
   return {
-    id: String(uuid()),
-    name,
-    model,
-    serial,
-    progress: 0,
-    archived: false
+    id, dir, startCommands
   };
 }
+
+export interface Server {
+  desc: ServerDescription,
+  status: string
+}
+
+export function newServer(desc: ServerDescription): Server {
+  return {
+    desc,
+    status: "waiting..."
+  };
+}
+
+

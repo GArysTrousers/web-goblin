@@ -5,7 +5,8 @@ import pty from 'node-pty'
 export let shells = {
   server: {
     shell: newShell("server"),
-    output: ""
+    output: "",
+    buffer: ""
   }
 }
 
@@ -24,7 +25,6 @@ function newShell(id:string) {
   newPty.on('data', function(data:any) {
     //process.stdout.write(data);
     shells[id].output += data
-    console.log(shells[id].output);
     
   });
 
