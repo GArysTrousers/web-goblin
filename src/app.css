@@ -4,16 +4,18 @@
 
 
 
-.flex-col {
+.col {
   display: flex;
+  flex-direction: column;
 }
 
-.flex-row {
+.row {
   display: flex;
+  flex-direction: row;
 }
 
 html {
-  @apply bg-slate-900 text-slate-200;
+  @apply bg-gray-900 text-slate-200;
 }
 
 h1 {
@@ -27,19 +29,26 @@ h3 {
 }
 
 input {
-  @apply bg-violet-800 rounded-lg px-3 py-1 w-full;
+  background-color: #22222299;
+  @apply border-black border-2 rounded-lg px-3 py-1 w-full;
 }
 
 input:focus {
   outline: none;
 }
 
-.card {
-  @apply bg-violet-900;
+main {
+  margin: 1rem;
 }
 
+
+.card {
+  @apply p-5 rounded-3xl;
+}
+
+
 .btn {
-  @apply bg-violet-800 rounded-lg px-3 py-1 text-center flex flex-row align-middle gap-1;
+  @apply bg-sky-800 rounded-lg px-3 py-1 text-center flex flex-row align-middle gap-1;
 }
 
 .btn:hover {
@@ -71,4 +80,9 @@ input:focus {
 
 .bg-trans {
   @apply bg-transparent;
+}
+
+.border-shadow {
+  /* background: linear-gradient(180deg, #020024, #082e58); */
+  box-shadow:  0px 0px 10px #1291c4;
 }

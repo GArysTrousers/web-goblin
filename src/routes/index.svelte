@@ -29,12 +29,12 @@
 
 <main>
   {#each servers as server}
-    <div class="card flex-col max-w-xl m-5 p-5 rounded-3xl gap-2">
-      <div class="flex-row justify-between">
+    <div class="card border-shadow col max-w-xl m-5 p-5 rounded-3xl gap-2">
+      <div class="row justify-between">
         <div class="text-xl">
           {server.desc.id} - {server.status}
         </div>
-        <div class="flex-row my-auto gap-1">
+        <div class="row my-auto gap-1">
           <button class="btn">
             Start
             <div class="icon">play_arrow</div>

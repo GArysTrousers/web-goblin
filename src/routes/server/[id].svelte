@@ -10,10 +10,14 @@
 </script>
 
 <script lang="ts">
-  import { api } from "$lib/fetch";
+  import ServerEditor from "$lib/comp/ServerEditor.svelte";
+import { api } from "$lib/fetch";
+import type { ServerDescription } from "$lib/types";
   import { onMount } from "svelte";
 
   export let serverId: string;
+
+  let server:Server;
 
   let terminal: any;
   let inputText = "";
@@ -25,6 +29,8 @@
     terminal.open(document.getElementById("terminal"));
     getOutput();
     setInterval(getBuffer, 1000);
+    let res = await api('/api/server/get_server', {id: serverId});
+    if (res.ok) server = res.data
   });
 
   async function keypress(e: KeyboardEvent) {
@@ -52,21 +58,25 @@
 </svelte:head>
 
 <main>
-  
-  <div class="flex-col max-w-3xl">
-    <div class="flex-row justify-between">
+  <div class="col gap-5">
+  <div class="col max-w-3xl p-3 gap-2 card border-shadow">
+    <div class="row justify-between">
       <h1>{serverId}</h1>
       <div>
         <button class="btn icon" on:click={getOutput}>refresh</button>
       </div>
     </div>
     <div class="" id="terminal" />
-    <div class="flex-row gap-2">
-      <input bind:value={inputText} on:keypress={keypress} />
+    <div class="row gap-2 ">
+      <input class="" bind:value={inputText} on:keypress={keypress} />
       <button class="btn icon" on:click={getOutput}>send</button>
     </div>
   </div>
+
+  <ServerEditor serverId={serverId}/>
+</div>
 </main>
 
 <style>
+  
 </style>

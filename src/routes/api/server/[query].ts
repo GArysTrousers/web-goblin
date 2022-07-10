@@ -26,6 +26,13 @@ export async function post({ request, params }) {
       return { body: success(await db.getAll('servers')) }
     }
 
+    else if (query == 'get_server') {
+      let {id} = data;
+      
+      let server = await db.getOne('servers', id)
+      return { body: success(server) }
+    }
+
     else if (query == 'get_server_statuses') {
       let { servers } = data;
       let statuses = {}
