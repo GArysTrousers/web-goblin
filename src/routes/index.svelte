@@ -7,16 +7,16 @@
   let servers: Server[] = [];
 
   onMount(async () => {
-    let res = await api("/api/server/get_servers");
-    if (res.ok) {
-      servers = res.data.map((i) => newServer(i));
-      let statuses = await api("/api/server/get_server_statuses", {
-        servers: res.data.map((i) => i.id),
+    let resServers = await api<ServerDescription[]>("/api/server/get_servers");
+    if (resServers.ok) {
+      servers = resServers.data.map((i) => newServer(i));
+      let resStatuses = await api<any>("/api/server/get_server_statuses", {
+        servers: resServers.data.map((i) => i.id),
       });
       servers = servers.map(server => {
         return {
           ...server,
-          status: statuses.data[server.desc.id]
+          status: resStatuses.data[server.desc.id]
         }
       })
     }
@@ -32,7 +32,7 @@
     <div class="card border-shadow col max-w-xl m-5 p-5 rounded-3xl gap-2">
       <div class="row justify-between">
         <div class="text-xl">
-          {server.desc.id} - {server.status}
+          {server.desc.name} - {server.status}
         </div>
         <div class="row my-auto gap-1">
           <button class="btn">

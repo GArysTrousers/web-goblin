@@ -25,6 +25,7 @@ function newShell(id:string) {
   newPty.on('data', function(data:any) {
     //process.stdout.write(data);
     shells[id].output += data
+    shells[id].buffer += data
     
   });
 

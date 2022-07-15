@@ -1,26 +1,26 @@
 <script lang="ts">
+import { goto } from "$app/navigation";
+
   import { api } from "$lib/fetch";
 
   import type { ServerDescription } from "$lib/types";
   import { newServerDescription } from "$lib/types";
   import { onMount } from "svelte";
 
-  export let serverId: string;
-  let server: ServerDescription = newServerDescription("", "", []);
+  export let server: ServerDescription = newServerDescription();
+  export let onSave: any = () => {location.reload()}
 
-  onMount(async () => {
-    let res = await api("/api/server/get_server", { id: serverId });
-    if (res.ok) server = res.data;
-    console.log(server);
-    
-  });
+  async function save() {
+    let res = await api<{}>('/api/server/save', {server});
+    if (res.ok) onSave();
+  }
 </script>
 
 <div class="card border-shadow col max-w-xl gap-2">
   <div class="row justify-between">
     <h1>Server</h1>
     <div class="row mb-auto">
-      <button class="btn">
+      <button class="btn" on:click={save}>
         <div class="icon">save</div>
         Save
       </button>
@@ -28,7 +28,7 @@
   </div>
   <div class="grid grid-cols-3 gap-2">
     <div>Name</div>
-    <div class="col-span-2"><input bind:value={server.id} /></div>
+    <div class="col-span-2"><input bind:value={server.name} /></div>
     <div>Directory</div>
     <div class="col-span-2"><input bind:value={server.dir} /></div>
   </div>
@@ -54,6 +54,7 @@
       </div>
     {/each}
   </div>
+  <div class="text-xs text-gray-600 text-right">{server.id}</div>
 </div>
 
 <style>

@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from "fs";
 
 
-let dbPath = "C:\\repos\\web-goblin-data\\data.json";
+let dbPath = "C:\\repos\\web-goblin\\data.json";
 let tables = [
   "servers"
 ]

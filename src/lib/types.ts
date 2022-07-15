@@ -1,14 +1,16 @@
+import { v4 as uuid } from "uuid";
 
 export interface ServerDescription {
   id: string;
+  name: string;
   dir: string;
   startCommands: string[];
-
 }
 
-export function newServerDescription(id: string, dir: string, startCommands: string[]): ServerDescription {
+export function newServerDescription(name:string = '', dir: string = '', startCommands: string[] = []): ServerDescription {
   return {
-    id, dir, startCommands
+    id:uuid(), 
+    name, dir, startCommands
   };
 }
 
@@ -17,7 +19,7 @@ export interface Server {
   status: string
 }
 
-export function newServer(desc: ServerDescription): Server {
+export function newServer(desc: ServerDescription = newServerDescription()): Server {
   return {
     desc,
     status: "waiting..."
