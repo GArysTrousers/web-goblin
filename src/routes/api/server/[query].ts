@@ -1,6 +1,7 @@
 import { error, success } from "$lib/fetch";
 import * as db from "$lib/jsdb";
 import { shells } from "$lib/shells";
+import type {  ServerDescription } from "$lib/types";
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function post({ request, params }) {
@@ -40,6 +41,16 @@ export async function post({ request, params }) {
         statuses[i] = (i in shells) ? "Running" : "Stopped"
       })
       return { body: success(statuses) }
+    }
+
+    else if (query == 'start') {
+      let { id } = data;
+      let server = await db.getOne<ServerDescription>('servers', id);
+      if (server == false) return { body: error(`No Server: ${id}`) }
+      server = server as ServerDescription
+      for (let command of server.startCommands) {
+        shells[id].shell.write(command + '\r');
+      }
     }
 
     else if (query == 'get_output') {

@@ -47,14 +47,14 @@ export async function getAll(table: string): Promise<any> {
   return data[table];
 }
 
-export async function get(table: string, selector: Function): Promise<any> {
-  return data[table].filter(selector);
+export async function get<T>(table: string, selector: Function): Promise<any> {
+  return data[table].filter(selector) as T;
 }
 
-export async function getOne(table: string, id: string): Promise<any> {
-  let index = data[table].findIndex(x => x.id == id)
+export async function getOne<T>(table: string, id: string): Promise<T|boolean> {
+  let index = data[table].findIndex(x => x.id == id);
   if (index == -1) return false;
-  return data[table][index]
+  return data[table][index] as T;
 }
 
 export async function set(table: string, value: any) {
