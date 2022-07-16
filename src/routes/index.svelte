@@ -1,4 +1,6 @@
 <script lang="ts">
+import { startServer } from "$lib/client-controls";
+
   import { api } from "$lib/fetch";
   import { newServer, type Server, type ServerDescription } from "$lib/types";
 
@@ -21,14 +23,6 @@
       })
     }
   });
-
-  function getStatus(id: string) {
-    return "Hey";
-  }
-
-  async function startServer(id:string) {
-    let res = await api("/api/server/start", {id});
-  }
 </script>
 
 <main>

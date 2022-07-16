@@ -1,4 +1,6 @@
 <script lang="ts">
+import { startServer } from "$lib/client-controls";
+
   import { api } from "$lib/fetch";
 
   import { newServerDescription, type ServerDescription } from "$lib/types";
@@ -67,8 +69,16 @@
 <div class="col max-w-4xl p-3 gap-2 card border-shadow">
   <div class="row justify-between">
     <h1>{label}</h1>
-    <div>
-      <button class="btn icon" on:click={refresh}>refresh</button>
+    <div class="row gap-2 mb-auto">
+      <button class="btn" on:click={() => startServer(id)}>
+        Start
+        <div class="icon">play_arrow</div>
+      </button>
+      <button class="btn">
+        Stop
+        <div class="icon">stop</div>
+      </button>
+      <button class="btn icon" title="Refresh" on:click={refresh}>refresh</button>
     </div>
   </div>
   <div class="p-3 bg-black rounded-2xl" id="terminal" />
@@ -79,5 +89,4 @@
 </div>
 
 <style>
-  
 </style>
