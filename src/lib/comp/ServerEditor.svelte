@@ -1,5 +1,5 @@
 <script lang="ts">
-import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
 
   import { api } from "$lib/fetch";
 
@@ -8,10 +8,12 @@ import { goto } from "$app/navigation";
   import { onMount } from "svelte";
 
   export let server: ServerDescription = newServerDescription();
-  export let onSave: any = () => {location.reload()}
+  export let onSave: any = () => {
+    location.reload();
+  };
 
   async function save() {
-    let res = await api<{}>('/api/server/save', {server});
+    let res = await api<{}>("/api/server/save", { server });
     if (res.ok) onSave();
   }
 </script>
@@ -48,8 +50,14 @@ import { goto } from "$app/navigation";
   <div class="col gap-2">
     {#each server.startCommands as com}
       <div class="row gap-1">
-        <input bind:value={com} /><button class="btn btn-icon icon bg-trans"
-          >close</button
+        <input bind:value={com} />
+        <button
+          class="btn btn-icon icon bg-trans"
+          on:click={() => {
+            server.startCommands = server.startCommands.filter(
+              (i, j) => i != com
+            );
+          }}>close</button
         >
       </div>
     {/each}

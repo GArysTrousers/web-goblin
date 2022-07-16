@@ -4,9 +4,10 @@ import pty from 'node-pty'
 
 export let shells = new Map<string, { shell: pty.IPty, output: string, buffer: string }>();
 
-shells.set("server", newShell("server"))
+let serverDir = process.env.HOME ? process.env.HOME : "C:\\"
+shells.set("server", newShell("server", serverDir))
 
-export function newShell(id: string) {
+export function newShell(id: string, dir: string) {
 
   var term = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
 
@@ -15,7 +16,7 @@ export function newShell(id: string) {
       name: 'xterm-color',
       cols: 80,
       rows: 30,
-      cwd: process.env.HOME,
+      cwd: dir,
       env: process.env
     }),
     output: "",

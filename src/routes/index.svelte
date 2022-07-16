@@ -1,5 +1,5 @@
 <script lang="ts">
-import { startServer } from "$lib/client-controls";
+import { startServer, stopServer } from "$lib/client-controls";
 
   import { api } from "$lib/fetch";
   import { newServer, type Server, type ServerDescription } from "$lib/types";
@@ -30,14 +30,14 @@ import { startServer } from "$lib/client-controls";
     <div class="card border-shadow col max-w-xl m-5 p-5 rounded-3xl gap-2">
       <div class="row justify-between">
         <div class="text-xl">
-          {server.desc.name} - {server.status}
+          {server.desc.name} - {server.status ? "Running" : "Stopped"}
         </div>
         <div class="row my-auto gap-1">
           <button class="btn" on:click={() => startServer(server.desc.id)}>
             Start
             <div class="icon">play_arrow</div>
           </button>
-          <button class="btn">
+          <button class="btn" on:click={() => stopServer(server.desc.id)}>
             Stop
             <div class="icon">stop</div>
           </button>

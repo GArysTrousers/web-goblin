@@ -43,13 +43,13 @@ export async function post({ request, params }) {
       }
       return { body: error(`No Server: ${id}`) }
     }
-    
+
     // Start
     //TODO: if shell already running -> stop first
     else if (query == 'start') {
-      let { id } = data as {id: string};
+      let { id } = data as { id: string };
       if (id == "server") {
-        let shell = newShell("server")
+        let shell = newShell("server", "C:\\")
         shells.set(id, shell);
         return { body: success() }
       }
@@ -57,8 +57,9 @@ export async function post({ request, params }) {
       let server = await db.getOne<ServerDescription>('servers', id);
       if (server == false) return { body: error(`No Server: ${id}`) }
       server = server as ServerDescription
-      let shell = newShell(id)
+      let shell = newShell(server.id, server.dir)
       shells.set(id, shell);
+      
       for (let command of server.startCommands) {
         shell.shell.write(command + '\r');
       }
@@ -67,7 +68,14 @@ export async function post({ request, params }) {
 
     // Stop
     else if (query == 'stop') {
-
+      let { id } = data as { id: string };
+      let shell = shells.get(id)
+      if (shell) {
+        shell.shell.kill()
+        shells.delete(id);
+        return { body: success() }
+      }
+      return { body: error("Server Already Stopped") }
     }
   }
 

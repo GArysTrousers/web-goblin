@@ -1,5 +1,5 @@
 <script lang="ts">
-import { startServer } from "$lib/client-controls";
+import { startServer, stopServer } from "$lib/client-controls";
 
   import { api } from "$lib/fetch";
 
@@ -74,7 +74,7 @@ import { startServer } from "$lib/client-controls";
         Start
         <div class="icon">play_arrow</div>
       </button>
-      <button class="btn">
+      <button class="btn" on:click={() => stopServer(id)}>
         Stop
         <div class="icon">stop</div>
       </button>
