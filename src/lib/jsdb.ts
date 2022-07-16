@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from "fs";
 
 
-let dbPath = "C:\\repos\\web-goblin-data\\data.json";
+let dbPath = "C:\\repos\\web-goblin\\data.json";
 let tables = [
   "servers"
 ]
@@ -47,7 +47,7 @@ export async function getAll(table: string): Promise<any> {
   return data[table];
 }
 
-export async function get<T>(table: string, selector: Function): Promise<any> {
+export async function get<T>(table: string, selector: Function): Promise<T> {
   return data[table].filter(selector) as T;
 }
 

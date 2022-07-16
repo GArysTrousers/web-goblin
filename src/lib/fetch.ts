@@ -1,4 +1,4 @@
-export async function api(url:string, body:object = {}, fetchMethod = fetch) {
+export async function api<T>(url:string, body:object = {}, fetchMethod = fetch) {
   const [res, data] = await fetchMethod(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -7,7 +7,7 @@ export async function api(url:string, body:object = {}, fetchMethod = fetch) {
   return {
     res: res,
     ok: data.ok,
-    data: data.data
+    data: data.data as T
   }
 }
 

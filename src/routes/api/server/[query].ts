@@ -28,8 +28,8 @@ export async function post({ request, params }) {
     }
 
     else if (query == 'get_server') {
-      let {id} = data;
-      
+      let { id } = data;
+
       let server = await db.getOne('servers', id)
       return { body: success(server) }
     }
@@ -43,6 +43,12 @@ export async function post({ request, params }) {
       return { body: success(statuses) }
     }
 
+    else if (query == 'save') {
+      let { server } = data;
+      await db.set('servers', server)
+      return { body: success() }
+    }
+    
     else if (query == 'start') {
       let { id } = data as {id: string};
       let server = await db.getOne<ServerDescription>('servers', id);
