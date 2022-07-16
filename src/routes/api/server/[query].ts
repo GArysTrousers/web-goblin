@@ -32,9 +32,9 @@ export async function post({ request, params }) {
     //TODO: This doesn't work properly
     else if (query == 'get_server_statuses') {
       let { servers } = data as {servers: string[]};
-      let statuses = new Map<string, boolean>()
+      let statuses = new Map<string, string>()
       servers.forEach(i => {
-        statuses.set(i, !!shells.get(i));
+        statuses.set(i, shells.get(i) ? "Running" : "Stopped");
       })
       return { body: success(Object.fromEntries(statuses)) }
     }

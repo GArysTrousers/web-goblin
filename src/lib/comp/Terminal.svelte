@@ -1,5 +1,5 @@
 <script lang="ts">
-import { startServer, stopServer } from "$lib/client-controls";
+  import { startServer, stopServer } from "$lib/client-controls";
 
   import { api } from "$lib/fetch";
 
@@ -12,6 +12,7 @@ import { startServer, stopServer } from "$lib/client-controls";
   let terminal: any;
   let inputText = "";
   let poller: any;
+  let showMore: boolean = false;
 
   let xterm;
   onMount(async () => {
@@ -56,6 +57,13 @@ import { startServer, stopServer } from "$lib/client-controls";
     inputText = "";
   }
 
+  async function sendCommand(text: string) {
+    let res = await api("/api/shell/send_command", {
+      id,
+      text: inputText + "\r",
+    });
+  }
+
   async function refresh() {
     terminal.clear();
     await getOutput();
@@ -78,14 +86,27 @@ import { startServer, stopServer } from "$lib/client-controls";
         Stop
         <div class="icon">stop</div>
       </button>
-      <button class="btn icon" title="Refresh" on:click={refresh}>refresh</button>
+      <button class="btn icon" title="Refresh" on:click={refresh}
+        >refresh</button
+      >
     </div>
   </div>
   <div class="p-3 bg-black rounded-2xl" id="terminal" />
   <div class="row gap-2 ">
     <input class="" bind:value={inputText} on:keypress={keypress} />
     <button class="btn icon" on:click={sendInput}>send</button>
+    <button 
+    class="btn icon" 
+    on:click={() => (showMore = !showMore)}
+    title={showMore ? "Show Less" : "Show More"}>
+      {showMore ? "expand_less" : "expand_more"}
+    </button>
   </div>
+  {#if showMore}
+    <div class="row gap-2 justify-end">
+      <button class="btn" on:click={() => sendCommand('\x03')}>Ctrl+C</button>
+    </div>
+  {/if}
 </div>
 
 <style>

@@ -55,7 +55,7 @@
           class="btn btn-icon icon bg-trans"
           on:click={() => {
             server.startCommands = server.startCommands.filter(
-              (i, j) => i != com
+              (i) => i != com
             );
           }}>close</button
         >

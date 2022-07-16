@@ -48,6 +48,8 @@ export async function post({ request, params }) {
     //TODO: if shell already running -> stop first
     else if (query == 'start') {
       let { id } = data as { id: string };
+      
+      // for the server shell
       if (id == "server") {
         let shell = newShell("server", "C:\\")
         shells.set(id, shell);
@@ -57,9 +59,16 @@ export async function post({ request, params }) {
       let server = await db.getOne<ServerDescription>('servers', id);
       if (server == false) return { body: error(`No Server: ${id}`) }
       server = server as ServerDescription
+      // kill any old shells
+      let oldShell = shells.get(id)
+      if (oldShell) {
+        oldShell.shell.kill()
+        shells.delete(id);
+      }
+      // start shell
       let shell = newShell(server.id, server.dir)
       shells.set(id, shell);
-      
+      //run starting commands
       for (let command of server.startCommands) {
         shell.shell.write(command + '\r');
       }

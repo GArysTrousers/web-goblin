@@ -30,12 +30,16 @@ export function newShell(id: string, dir: string) {
   //   env: process.env
   // });
 
-  shell.shell.on('data', function (data: any) {
+  shell.shell.onData(function (data: any) {
     process.stdout.write(data);
     //shells.get(id).output += data
     shell.output += data
     shell.buffer += data
   });
+
+  shell.shell.onExit(function (e) {
+    console.log("shell exited ", id);
+  })
 
   return shell;
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { startServer, stopServer } from "$lib/client-controls";
+  import { startServer, stopServer } from "$lib/client-controls";
 
   import { api } from "$lib/fetch";
   import { newServer, type Server, type ServerDescription } from "$lib/types";
@@ -7,22 +7,28 @@ import { startServer, stopServer } from "$lib/client-controls";
   import { onMount } from "svelte";
 
   let servers: Server[] = [];
+  let poller: any;
 
   onMount(async () => {
-    let resServers = await api<ServerDescription[]>("/api/server/get_servers");
-    if (resServers.ok) {
-      servers = resServers.data.map((i) => newServer(i));
-      let resStatuses = await api<any>("/api/server/get_server_statuses", {
-        servers: resServers.data.map((i) => i.id),
-      });
-      servers = servers.map(server => {
-        return {
-          ...server,
-          status: resStatuses.data[server.desc.id]
-        }
-      })
+    let res = await api<ServerDescription[]>("/api/server/get_servers");
+    if (res.ok) {
+      servers = res.data.map((i) => newServer(i));
+      getStatuses()
+      poller = setInterval(getStatuses, 5000);
     }
   });
+
+  async function getStatuses() {
+    let res = await api<any>("/api/server/get_server_statuses", {
+      servers: servers.map((i) => i.desc.id),
+    });
+    servers = servers.map((server) => {
+      return {
+        ...server,
+        status: res.data[server.desc.id],
+      };
+    });
+  }
 </script>
 
 <main>
@@ -30,7 +36,7 @@ import { startServer, stopServer } from "$lib/client-controls";
     <div class="card border-shadow col max-w-xl m-5 p-5 rounded-3xl gap-2">
       <div class="row justify-between">
         <div class="text-xl">
-          {server.desc.name} - {server.status ? "Running" : "Stopped"}
+          {server.desc.name} - {server.status}
         </div>
         <div class="row my-auto gap-1">
           <button class="btn" on:click={() => startServer(server.desc.id)}>

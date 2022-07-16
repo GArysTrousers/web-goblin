@@ -22,7 +22,7 @@ export interface Server {
 export function newServer(desc: ServerDescription = newServerDescription()): Server {
   return {
     desc,
-    status: "waiting..."
+    status: "Waiting..."
   };
 }
 
