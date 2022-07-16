@@ -25,6 +25,10 @@
   function getStatus(id: string) {
     return "Hey";
   }
+
+  async function startServer(id:string) {
+    let res = await api("/api/server/start", {id});
+  }
 </script>
 
 <main>
@@ -35,7 +39,7 @@
           {server.desc.id} - {server.status}
         </div>
         <div class="row my-auto gap-1">
-          <button class="btn">
+          <button class="btn" on:click={() => startServer(server.desc.id)}>
             Start
             <div class="icon">play_arrow</div>
           </button>
