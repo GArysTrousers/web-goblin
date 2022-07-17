@@ -1,11 +1,13 @@
 import os from 'os';
-import pty from 'node-pty'
+import pty, { type IPtyForkOptions } from 'node-pty'
 
 
 export let shells = new Map<string, { shell: pty.IPty, output: string, buffer: string }>();
 const cleanup = () => {
-  for (let s of shells.values())
-    s.shell.kill();
+  shells.forEach((shell, id) => {
+    console.log(`killing shell ${id}`);
+    shell.shell.kill();
+  })
   process.exit(0);
 }
 [`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
@@ -27,17 +29,10 @@ export function newShell(id: string, dir: string) {
       rows: 30,
       cwd: dir,
       env: process.env
-    }),
+    } as IPtyForkOptions),
     output: "",
     buffer: ""
   }
-  // var newPty = pty.spawn(term, [], {
-  //   name: 'xterm-color',
-  //   cols: 80,
-  //   rows: 30,
-  //   cwd: process.env.HOME,
-  //   env: process.env
-  // });
 
   shell.shell.onData(function (data: any) {
     process.stdout.write(data);
