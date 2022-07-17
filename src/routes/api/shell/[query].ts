@@ -48,7 +48,7 @@ export async function post({ request, params }) {
     //TODO: if shell already running -> stop first
     else if (query == 'start') {
       let { id } = data as { id: string };
-      
+
       // for the server shell
       if (id == "server") {
         let shell = newShell("server", "C:\\")

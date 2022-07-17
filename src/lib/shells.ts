@@ -3,9 +3,18 @@ import pty from 'node-pty'
 
 
 export let shells = new Map<string, { shell: pty.IPty, output: string, buffer: string }>();
+const cleanup = () => {
+  for (let s of shells.values())
+    s.shell.kill();
+  process.exit(0);
+}
+[`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
+  process.on(eventType, cleanup);
+})
 
 let serverDir = process.env.HOME ? process.env.HOME : "C:\\"
 shells.set("server", newShell("server", serverDir))
+
 
 export function newShell(id: string, dir: string) {
 
