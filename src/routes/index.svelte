@@ -1,5 +1,6 @@
 <script lang="ts">
   import { startServer, stopServer } from "$lib/client-controls";
+  import ServiceSummery from "$lib/comp/ServiceSummery.svelte";
 
   import { api } from "$lib/fetch";
   import { newServer, type Server, type ServerDescription } from "$lib/types";
@@ -13,7 +14,7 @@
     let res = await api<ServerDescription[]>("/api/server/get_servers");
     if (res.ok) {
       servers = res.data.map((i) => newServer(i));
-      getStatuses()
+      getStatuses();
       poller = setInterval(getStatuses, 5000);
     }
   });
@@ -32,35 +33,13 @@
 </script>
 
 <main>
-  <div>
-    Nginx
-  </div>
-  <div>
-    MySQL
-  </div>
-  <div class="card border-shadow col max-w-xl my-5 p-5 rounded-3xl gap-2">
-    <div class="row justify-between">
-      <div class="text-xl">
-        Nginx - Status
-      </div>
-      <div class="row my-auto gap-1">
-        <button class="btn" on:click={() => startServer("1")}>
-          Start
-          <div class="icon">play_arrow</div>
-        </button>
-        <button class="btn" on:click={() => stopServer("1")}>
-          Stop
-          <div class="icon">stop</div>
-        </button>
-        <a href={`/server/${'server.desc.id'}`} class="btn">
-          Go
-          <div class="icon">arrow_forward</div>
-        </a>
-      </div>
-    </div>
-  </div>
+  <h1>Services</h1>
+  <ServiceSummery name="Nginx" />
+  <ServiceSummery name="MySql" />
+
+  <h1>Servers</h1>
   {#each servers as server}
-    <div class="card border-shadow col max-w-xl my-5 p-5 rounded-3xl gap-2">
+    <div class="card glow-blue col max-w-xl my-5 p-5 rounded-3xl gap-2">
       <div class="row justify-between">
         <div class="text-xl">
           {server.desc.name} - {server.status}
