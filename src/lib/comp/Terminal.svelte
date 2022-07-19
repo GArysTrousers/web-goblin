@@ -74,7 +74,7 @@
   <link rel="stylesheet" href="/node_modules/xterm/css/xterm.css" />
 </svelte:head>
 
-<div class="col max-w-4xl p-3 gap-2 card border-shadow">
+<div class="col max-w-4xl p-3 gap-2 card glow-blue">
   <div class="row justify-between">
     <h1>{label}</h1>
     <div class="row gap-2 mb-auto">

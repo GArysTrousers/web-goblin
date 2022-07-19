@@ -1,16 +1,9 @@
 <script lang="ts">
+  import { startService, stopService } from "$lib/client-controls";
   import { api } from "$lib/fetch";
   import type { Service } from "$lib/types";
 
   export let service: Service;
-
-  async function startService() {
-    let res = await api("/api/service/start", { id: service.id });
-  }
-
-  async function stopService() {
-    let res = await api("/api/service/stop", { id: service.id });
-  }
 </script>
 
 <div class="card glow-orange col max-w-xl my-5 p-5 rounded-3xl gap-2">
@@ -19,11 +12,11 @@
       {service.name} - {service.status}
     </div>
     <div class="row my-auto gap-1">
-      <button class="btn" on:click={() => startService()}>
+      <button class="btn" on:click={() => startService(service.id)}>
         Start
         <div class="icon">play_arrow</div>
       </button>
-      <button class="btn" on:click={() => stopService()}>
+      <button class="btn" on:click={() => stopService(service.id)}>
         Stop
         <div class="icon">stop</div>
       </button>

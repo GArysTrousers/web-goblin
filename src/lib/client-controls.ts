@@ -12,3 +12,12 @@ export async function startServer(id: string) {
 export async function stopServer(id: string) {
   let res = await api("/api/shell/stop", { id });
 }
+
+
+export async function startService(id: string) {
+  let res = await api("/api/service/start", { id });
+}
+
+export async function stopService(id: string) {
+  let res = await api("/api/service/stop", { id });
+}

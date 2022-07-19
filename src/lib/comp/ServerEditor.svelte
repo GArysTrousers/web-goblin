@@ -18,7 +18,7 @@
   }
 </script>
 
-<div class="card border-shadow col max-w-xl gap-2">
+<div class="card glow-blue col max-w-xl gap-2">
   <div class="row justify-between">
     <h1>Server</h1>
     <div class="row mb-auto">
