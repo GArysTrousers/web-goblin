@@ -7,9 +7,9 @@ export interface ServerDescription {
   startCommands: string[];
 }
 
-export function newServerDescription(name:string = '', dir: string = '', startCommands: string[] = []): ServerDescription {
+export function newServerDescription(name: string = '', dir: string = '', startCommands: string[] = []): ServerDescription {
   return {
-    id:uuid(), 
+    id: uuid(),
     name, dir, startCommands
   };
 }
@@ -27,3 +27,16 @@ export function newServer(desc: ServerDescription = newServerDescription()): Ser
 }
 
 
+export interface Service {
+  id: string;
+  name: string;
+  status: string;
+}
+
+export function newService(): Service {
+  return {
+    id: "",
+    name: "",
+    status: "Waiting...",
+  };
+}

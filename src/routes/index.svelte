@@ -3,10 +3,22 @@
   import ServiceSummery from "$lib/comp/ServiceSummery.svelte";
 
   import { api } from "$lib/fetch";
-  import { newServer, type Server, type ServerDescription } from "$lib/types";
+  import {
+    newServer,
+    type Server,
+    type ServerDescription,
+    type Service,
+  } from "$lib/types";
 
   import { onMount } from "svelte";
 
+  let services: Service[] = [
+    {
+      id: "mysql",
+      name: "MySQL",
+      status: "Waiting..."
+    }
+  ];
   let servers: Server[] = [];
   let poller: any;
 
@@ -34,8 +46,9 @@
 
 <main>
   <h1>Services</h1>
-  <ServiceSummery name="Nginx" />
-  <ServiceSummery name="MySql" />
+  {#each services as service}
+    <ServiceSummery {service} />
+  {/each}
 
   <h1>Servers</h1>
   {#each servers as server}

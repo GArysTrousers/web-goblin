@@ -1,10 +1,8 @@
 import { readFileSync, writeFileSync } from "fs";
+import { tables } from "$lib/jsdb.config";
 
 
-let dbPath = "C:\\repos\\web-goblin\\data.json";
-let tables = [
-  "servers"
-]
+let dbPath:any = import.meta.env.VITE_DB_LOCATION || 'data.json';
 let data: object = initDB(dbPath, tables)
 
 let saveTimer: NodeJS.Timeout = setTimeout(() => {
