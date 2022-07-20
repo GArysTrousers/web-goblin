@@ -27,8 +27,6 @@ export async function post({ request, params }) {
     // Get Statuses
     else if (query == 'get_status') {
       let all = await db.getAll<Service>('services');
-      console.log("all");
-      
       let status = await Promise.all(all.map(async (i) => {
         return { id: i.id, status: await getServiceState(i.id) }
       }))
