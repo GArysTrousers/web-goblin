@@ -1,7 +1,7 @@
 import { error, success } from "$lib/fetch";
 import * as db from "$lib/jsdb";
 import { shells, newShell } from "$lib/shells";
-import type {  ServerDescription } from "$lib/types";
+import type { ServerDescription } from "$lib/types";
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function post({ request, params }) {
@@ -11,19 +11,14 @@ export async function post({ request, params }) {
 
 
   try {
-    if (query == 'get_all') {
-
-    }
-
     // Get Servers
-    else if (query == 'get_servers') {
+    if (query == 'get_all') {
       return { body: success(await db.getAll('servers')) }
     }
 
     // Get Server
-    else if (query == 'get_server') {
+    else if (query == 'get_one') {
       let { id } = data;
-
       let server = await db.getOne<ServerDescription>('servers', id)
       return { body: success(server) }
     }
@@ -31,7 +26,7 @@ export async function post({ request, params }) {
     // Get Statuses
     //TODO: This doesn't work properly
     else if (query == 'get_server_statuses') {
-      let { servers } = data as {servers: string[]};
+      let { servers } = data as { servers: string[] };
       let statuses = new Map<string, string>()
       servers.forEach(i => {
         statuses.set(i, shells.get(i) ? "Running" : "Stopped");

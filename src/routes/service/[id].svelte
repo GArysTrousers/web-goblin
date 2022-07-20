@@ -2,7 +2,7 @@
   export async function load({ params }) {
     return {
       props: {
-        serverId: params.id,
+        serviceId: params.id,
       },
     };
   }
@@ -15,13 +15,13 @@
   import { newServer, type Server, type ServerDescription } from "$lib/types";
   import { onMount } from "svelte";
 
-  export let serverId: string;
+  export let serviceId: string;
 
   let server: Server = newServer();
 
   onMount(async () => {
-    let res = await api<ServerDescription>("/api/server/get_one", {
-      id: serverId,
+    let res = await api<ServerDescription>("/api/service/get_one", {
+      id: serviceId,
     });
     if (res.ok) server.desc = res.data;
   });

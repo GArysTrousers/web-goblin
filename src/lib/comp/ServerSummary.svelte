@@ -5,7 +5,7 @@
   export let server: Server;
 </script>
 
-<div class="card glow-blue col max-w-xl my-5 p-5 rounded-3xl gap-2">
+<div class="card glow-blue col my-5 p-5 rounded-3xl gap-2">
   <div class="row justify-between">
     <div class="text-xl">
       {server.desc.name} - {server.status}

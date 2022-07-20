@@ -41,8 +41,8 @@ function initDB(filePath: string, tables: Array<string>): object {
   return db;
 }
 
-export async function getAll(table: string): Promise<any> {
-  return data[table];
+export async function getAll<T>(table: string) {
+  return data[table] as T[];
 }
 
 export async function get<T>(table: string, selector: Function): Promise<T> {

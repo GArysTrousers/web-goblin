@@ -10,6 +10,5 @@
 <div class="flex-row p-3 gap-2">
   <a class="btn icon" href="/" title="Home">home</a>
   <a class="btn icon" href="/terminal" title="Terminal">terminal</a>
-  <a class="btn icon" href="/new" title="New Server">add</a>
 </div>
 <slot />

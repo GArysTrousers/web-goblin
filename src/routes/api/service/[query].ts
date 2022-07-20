@@ -1,5 +1,6 @@
 import { error, success } from "$lib/fetch";
 import * as db from "$lib/jsdb";
+import { getServiceState } from "$lib/services";
 import { shells, newShell } from "$lib/shells";
 import { Service } from "$lib/types";
 
@@ -24,14 +25,14 @@ export async function post({ request, params }) {
     }
 
     // Get Statuses
-    //TODO: This doesn't work properly
-    else if (query == 'get_server_statuses') {
-      let { servers } = data as {servers: string[]};
-      let statuses = new Map<string, string>()
-      servers.forEach(i => {
-        statuses.set(i, shells.get(i) ? "Running" : "Stopped");
-      })
-      return { body: success(Object.fromEntries(statuses)) }
+    else if (query == 'get_status') {
+      let all = await db.getAll<Service>('services');
+      console.log("all");
+      
+      let status = await Promise.all(all.map(async (i) => {
+        return { id: i.id, status: await getServiceState(i.id) }
+      }))
+      return { body: success(status) }
     }
 
     // Save

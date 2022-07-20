@@ -6,7 +6,7 @@
   export let service: Service;
 </script>
 
-<div class="card glow-orange col max-w-xl my-5 p-5 rounded-3xl gap-2">
+<div class="card glow-orange col my-5 p-5 rounded-3xl gap-2">
   <div class="row justify-between">
     <div class="text-xl">
       {service.name} - {service.status}
