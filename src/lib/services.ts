@@ -1,9 +1,9 @@
 
-import {promisify} from "util";
+import { promisify } from "util";
 import { exec } from "child_process";
 const execAsync = promisify(exec);
 
-export async function getServiceStatusMap(data:string) {
+export async function getServiceStatusMap(data: string) {
   data = data.replaceAll(/\n +/g, '\n')
   data = data.replaceAll(/ {2,}/g, ' ')
   const map = new Map();
@@ -14,12 +14,15 @@ export async function getServiceStatusMap(data:string) {
   return map
 }
 
-export async function getServiceState(serviceName:string):Promise<string> {
-  let { stdout, stderr } = await execAsync(`sc query ${serviceName}`)
-  if (stderr) return stderr;
-  //console.log(`stdout: ${data}`);
-  let state = stdout.match(/STATE * : \d+  (\w+) */)
-  //console.log(state);
-  if (state) return state[1];
+export async function getServiceState(serviceName: string): Promise<string> {
+  try {
+    let { stdout, stderr } = await execAsync(`sc query ${serviceName}`)
+    if (stderr) return stderr;
+    let state = stdout.match(/STATE * : \d+  (\w+) */)
+    if (state) return state[1];
+  } catch (e: any) {
+    if (e.stdout.match(/The specified service does not exist as an installed service./))
+      return "NOT INSTALLED"
+  }
   return 'Error';
 }
