@@ -1,8 +1,15 @@
-export const tables = [
-  "services",
-  "servers",
-];
+import type { ServerDescription, Service } from "./types";
 
-export interface Tables {
+export type Table = "services" | "servers";
 
+export interface DbShape {
+  services: Service[]
+  servers: ServerDescription[]
+}
+
+export function newDb(): DbShape {
+  return {
+    services: [],
+    servers: []
+  }
 }

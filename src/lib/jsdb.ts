@@ -1,9 +1,9 @@
-import { readFileSync, writeFileSync } from "fs";
-import { tables } from "$lib/jsdb.config";
+import { readFileSync, writeFileSync, existsSync } from "fs";
+import { newDb, type DbShape, type Table } from "$lib/jsdb.config";
 
 
-let dbPath:any = import.meta.env.VITE_DB_LOCATION || 'data.json';
-let data: object = initDB(dbPath, tables)
+let dbPath:string = import.meta.env.VITE_DB_LOCATION || 'data.json';
+let data: DbShape = initDB(dbPath)
 
 let saveTimer: NodeJS.Timeout = setTimeout(() => {
   writeFileSync(dbPath, JSON.stringify(data))
@@ -15,47 +15,40 @@ function save(messsage: string = 'no message') {
   console.log(messsage);
 }
 
-function load(path: string) {
+function load(path: string): DbShape {
   let rawdata = readFileSync(path);
   let loadedData = JSON.parse(rawdata.toString());
-  console.log(loadedData);
-  console.log('db loaded');
+  console.log(info(loadedData));
   return loadedData;
 }
 
-function initDB(filePath: string, tables: Array<string>): object {
-  let db: object = {}
-  try {
-    db = load(filePath)
+function info(db:DbShape = data) {
+  let output = "DB Tables\n";
+  for (let i in db) {
+    output += `${i}: ${db[i].length}\n`
   }
-  catch (err:any) {
-    if (err.code === 'ENOENT') {
-      console.log('DB file not found!');
-    }
-  }
-  for (let t of tables) {
-    if (!(t in db)) {
-      db[t] = []
-    }
-  }
-  return db;
+  return output;
 }
 
-export async function getAll<T>(table: string) {
-  return data[table] as T[];
+function initDB(filePath: string): DbShape {
+  return existsSync(filePath) ? load(filePath) : newDb()
 }
 
-export async function get<T>(table: string, selector: Function): Promise<T> {
-  return data[table].filter(selector) as T;
+export async function getAll(table: Table) {
+  return data[table];
 }
 
-export async function getOne<T>(table: string, id: string): Promise<T|boolean> {
+export async function get(table: Table, selector: Function) {
+  return data[table].filter(selector);
+}
+
+export async function getOne(table: Table, id: string) {
   let index = data[table].findIndex(x => x.id == id);
   if (index == -1) return false;
-  return data[table][index] as T;
+  return data[table][index];
 }
 
-export async function set(table: string, value: any) {
+export async function set(table: Table, value: any) {
   let index = data[table].findIndex(x => x.id == value.id)
   if (index == -1) {
     data[table].push(value);
@@ -68,7 +61,7 @@ export async function set(table: string, value: any) {
   return true;
 }
 
-export async function remove(table: string, selector: Function): Promise<boolean> {
+export async function remove(table: Table, selector: Function): Promise<boolean> {
   let rows = data[table].filter(selector)
   for (let r of rows) {
     await removeOne(table, r.id)
@@ -76,7 +69,7 @@ export async function remove(table: string, selector: Function): Promise<boolean
   return true;
 }
 
-export async function removeOne(table: string, id: string): Promise<boolean> {
+export async function removeOne(table: Table, id: string) {
   let index = data[table].findIndex(x => x.id == id)
   if (index == -1) return false;
   data[table].splice(index, 1)
