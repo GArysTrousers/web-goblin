@@ -19,7 +19,7 @@ export async function post({ request, params }) {
     // Get Server
     else if (query == 'get_one') {
       let { id } = data;
-      let server = await db.getOne<ServerDescription>('servers', id)
+      let server = await db.getOne('servers', id)
       return { body: success(server) }
     }
 
