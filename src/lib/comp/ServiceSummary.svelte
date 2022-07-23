@@ -20,7 +20,7 @@
         Stop
         <div class="icon">stop</div>
       </button>
-      <a href={`/service/${"server.desc.id"}`} class="btn">
+      <a href={`/service/${service.id}`} class="btn">
         Go
         <div class="icon">arrow_forward</div>
       </a>

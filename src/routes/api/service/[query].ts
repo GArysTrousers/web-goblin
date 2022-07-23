@@ -1,7 +1,6 @@
 import { error, success } from "$lib/fetch";
 import * as db from "$lib/jsdb";
 import { getServiceState } from "$lib/services";
-import type { Service } from "$lib/types";
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function post({ request, params }) {

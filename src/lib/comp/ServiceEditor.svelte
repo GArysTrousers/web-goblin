@@ -1,12 +1,7 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";
-
   import { api } from "$lib/fetch";
 
-  import type { ServerDescription, Service } from "$lib/types";
-  import { newServerDescription } from "$lib/types";
-  import { onMount } from "svelte";
-
+  import type { Service } from "$lib/types";
   export let service: Service;
   export let onSave: any = () => {
     location.reload();
@@ -20,7 +15,7 @@
 
 <div class="card glow-blue col max-w-xl gap-2">
   <div class="row justify-between">
-    <h1>Server</h1>
+    <h1>Service</h1>
     <div class="row mb-auto">
       <button class="btn" on:click={save}>
         <div class="icon">save</div>

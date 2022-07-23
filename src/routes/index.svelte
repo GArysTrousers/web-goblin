@@ -10,12 +10,11 @@
     type Service,
   } from "$lib/types";
 
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
 
   let services: Service[] = [];
   let servers: Server[] = [];
-  let poller1: any;
-  let poller2: any;
+  let pollers:any[] = [];
 
   onMount(async () => {
     {
@@ -23,7 +22,7 @@
       if (res.ok) {
         servers = res.data.map((i) => newServer(i));
         getServerStatuses();
-        poller1 = setInterval(getServerStatuses, 5000);
+        pollers.push(setInterval(getServerStatuses, 5000));
       }
     }
     {
@@ -31,10 +30,14 @@
       if (res.ok) {
         services = res.data;
         getServiesStatuses();
-        poller2 = setInterval(getServiesStatuses, 10000);
+        pollers.push(setInterval(getServiesStatuses, 10000));
       }
     }
   });
+
+  onDestroy(() => {
+    pollers.forEach((i) => clearInterval(i))
+  })
 
   async function getServerStatuses() {
     let res = await api<any>("/api/server/get_server_statuses", {
@@ -64,7 +67,7 @@
 <main class="max-w-xl">
   <div class="row justify-between">
     <h1>Services</h1>
-    <a class="btn icon my-auto" href="/new" title="New Server">add</a>
+    <a class="btn icon my-auto" href="/service/new" title="New Server">add</a>
   </div>
   {#each services as service}
     <ServiceSummary {service} />
@@ -72,7 +75,7 @@
 
   <div class="row justify-between">
     <h1>Servers</h1>
-    <a class="btn icon my-auto" href="/new" title="New Server">add</a>
+    <a class="btn icon my-auto" href="/server/new" title="New Server">add</a>
   </div>
   {#each servers as server}
     <ServerSummary {server} />

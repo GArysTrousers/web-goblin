@@ -24,7 +24,6 @@ export async function post({ request, params }) {
     }
 
     // Get Statuses
-    //TODO: This doesn't work properly
     else if (query == 'get_server_statuses') {
       let { servers } = data as { servers: string[] };
       let statuses = new Map<string, string>()
