@@ -4,10 +4,10 @@ This goblin will help you take care of you web servers and services in a minimal
 ## Servers
 - Name
 - Directory
-- Start Commands
+- Start Script
 - Actions
+- Terminal
 
 ## Services
 - Name
 - System ID
-- 

@@ -4,13 +4,19 @@ export interface ServerDescription {
   id: string;
   name: string;
   dir: string;
-  startCommands: string[];
+  startScript: string;
+  actions: Action[];
 }
 
-export function newServerDescription(name: string = '', dir: string = '', startCommands: string[] = []): ServerDescription {
+export interface Action {
+  name:string;
+  script:string
+}
+
+export function newServerDescription(name: string = '', dir: string = '', startScript: string = "", actions: Action[] = []): ServerDescription {
   return {
     id: uuid(),
-    name, dir, startCommands
+    name, dir, startScript, actions
   };
 }
 

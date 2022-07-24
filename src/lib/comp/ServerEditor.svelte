@@ -33,35 +33,31 @@
     <div class="col-span-2"><input bind:value={server.name} /></div>
     <div>Directory</div>
     <div class="col-span-2"><input bind:value={server.dir} /></div>
+    
   </div>
-  <div class="my-2 row justify-between align-middle">
-    <h3>Start Commands</h3>
-    <div>
-      <button
-        class="btn btn-icon row align-middle"
-        on:click={() => {
-          server.startCommands = [...server.startCommands, ""];
-        }}
-        ><span class="icon">add</span>
-      </button>
-    </div>
-  </div>
-
-  <div class="col gap-2">
-    {#each server.startCommands as com}
-      <div class="row gap-1">
-        <input bind:value={com} />
+  <div class="col">
+    <div>Start Commands</div>
+    <div><textarea rows="5" bind:value={server.startScript}></textarea></div>
+    <div class="my-2 row justify-between align-middle">
+      <h3>Actions</h3>
+      <div>
         <button
-          class="btn btn-icon icon bg-trans"
+          class="btn btn-icon row align-middle"
           on:click={() => {
-            server.startCommands = server.startCommands.filter(
-              (i) => i != com
-            );
-          }}>close</button
-        >
+            server.actions = [...server.actions, {name: "", script: ""}];
+          }}
+          ><span class="icon">add</span>
+        </button>
       </div>
+    </div>
+    {#each server.actions as action}
+    <div>
+      <input bind:value={action.name} />
+      <textarea rows="4" bind:value={action.script}></textarea>
+    </div>
     {/each}
   </div>
+
   <div class="text-xs text-gray-600 text-right">{server.id}</div>
 </div>
 

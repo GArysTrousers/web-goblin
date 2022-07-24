@@ -56,7 +56,7 @@ export async function post({ request, params }) {
         return { body: success() }
       }
 
-      let server = await db.getOne<ServerDescription>('servers', id);
+      let server = await db.getOne('servers', id);
       if (server == false) return { body: error(`No Server: ${id}`) }
       server = server as ServerDescription
       // kill any old shells
@@ -69,7 +69,7 @@ export async function post({ request, params }) {
       let shell = newShell(server.id, server.dir)
       shells.set(id, shell);
       //run starting commands
-      for (let command of server.startCommands) {
+      for (let command of server.startScript.split('\n')) {
         shell.shell.write(command + '\r');
       }
       return { body: success() }

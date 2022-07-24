@@ -28,12 +28,13 @@ h3 {
   @apply text-xl;
 }
 
-input {
+input, textarea {
   background-color: #22222299;
+  resize: none;
   @apply border-black border-2 rounded-lg px-3 py-1 w-full;
 }
 
-input:focus {
+input:focus, textarea:focus {
   outline: none;
 }
 

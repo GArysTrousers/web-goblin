@@ -12,15 +12,12 @@
     </div>
     <div class="row my-auto gap-1">
       <button class="btn" on:click={() => startServer(server.desc.id)}>
-        Start
         <div class="icon">play_arrow</div>
       </button>
       <button class="btn" on:click={() => stopServer(server.desc.id)}>
-        Stop
         <div class="icon">stop</div>
       </button>
       <a href={`/server/${server.desc.id}`} class="btn">
-        Go
         <div class="icon">arrow_forward</div>
       </a>
     </div>
