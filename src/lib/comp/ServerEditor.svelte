@@ -5,7 +5,6 @@
 
   import type { ServerDescription } from "$lib/types";
   import { newServerDescription } from "$lib/types";
-  import { onMount } from "svelte";
 
   export let server: ServerDescription = newServerDescription();
   export let onSave: any = () => {
@@ -33,28 +32,27 @@
     <div class="col-span-2"><input bind:value={server.name} /></div>
     <div>Directory</div>
     <div class="col-span-2"><input bind:value={server.dir} /></div>
-    
   </div>
   <div class="col">
     <div>Start Commands</div>
-    <div><textarea rows="5" bind:value={server.startScript}></textarea></div>
+    <div><textarea rows="5" bind:value={server.startScript} /></div>
     <div class="my-2 row justify-between align-middle">
       <h3>Actions</h3>
       <div>
         <button
           class="btn btn-icon row align-middle"
           on:click={() => {
-            server.actions = [...server.actions, {name: "", script: ""}];
+            server.actions = [...server.actions, { name: "", script: "" }];
           }}
           ><span class="icon">add</span>
         </button>
       </div>
     </div>
     {#each server.actions as action}
-    <div>
-      <input bind:value={action.name} />
-      <textarea rows="4" bind:value={action.script}></textarea>
-    </div>
+      <div>
+        <input bind:value={action.name} />
+        <textarea rows="4" bind:value={action.script} />
+      </div>
     {/each}
   </div>
 
