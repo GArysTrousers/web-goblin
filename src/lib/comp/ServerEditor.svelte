@@ -49,9 +49,14 @@
       </div>
     </div>
     {#each server.actions as action}
-      <div>
+      <div class="row items-center gap-1">
         <input bind:value={action.name} />
-        <textarea rows="4" bind:value={action.script} />
+        <button class="btn" on:click={() => {}}>
+          <div class="icon">edit</div>
+        </button>
+        <button class="btn" on:click={() => {}}>
+          <div class="icon">play_arrow</div>
+        </button>
       </div>
     {/each}
   </div>

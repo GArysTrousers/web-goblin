@@ -1,1 +1,1 @@
-{"servers":[{"id":"5f6b0d23-6cb2-4eda-8968-250b4a71beb7","name":"Test","dir":".\\test","startScript":"node index.cjs","actions":[]}],"services":[{"id":"mysql","name":"MySQL","status":"Waiting..."}]}
+{"servers":[{"id":"5f6b0d23-6cb2-4eda-8968-250b4a71beb7","name":"Test","dir":".\\test","startScript":"node index.cjs","actions":[{"name":"Update","script":"[stop]\nwrite \"updating...done\"\n[start]"}]}],"services":[{"id":"mysql","name":"MySQL","status":"Waiting..."}]}
